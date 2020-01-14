@@ -15,6 +15,13 @@ class AcademicSectionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+     public function __construct()
+     {
+         $this->middleware('auth');
+         $this->middleware('checkroleid');
+     }
+
+
     public function index()
     {
           $classes = AcademicClass::all();
@@ -41,9 +48,10 @@ class AcademicSectionController extends Controller
     public function store(Request $request)
     {
       $request->validate([
-        'section_name'=> 'required|unique:academic_sections,section_name',
+        // 'section_name'=> 'required|unique:academic_sections,section_name',
       ]);
       AcademicSection::insert([
+        'class_name' => $request->class_name,
         'section_name' => $request->section_name,
         'added_by' => Auth::id(),
         'created_at' => Carbon::now()
@@ -101,6 +109,6 @@ class AcademicSectionController extends Controller
      */
     public function destroy(AcademicSection $academicSection)
     {
-        //
+        echo "string";
     }
 }

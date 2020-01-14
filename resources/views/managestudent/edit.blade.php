@@ -4,7 +4,7 @@
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <div class="row">
-  <div class="col-md-11">
+  <div class="col-md-12">
     <div class="card shadow mb-4">
       <h6 style="    margin: 12px !important" class="m-0 font-weight-bold text-primary fas fa-drafting-compass fa-2x">&nbsp Student Update Form</h6>
       <div class="card-body">
@@ -17,7 +17,9 @@
           </ol>
         </div>
       @endif
-      <form class="well form-horizontal">
+      <form class="well form-horizontal" method="post" action="{{ route('managestudent-update') }}" >
+        @csrf
+        <input type="hidden" name="id" value="{{ $old_information->id }}" >
          <div class="row">
            <div class="col-md-5">
              <fieldset>
@@ -97,16 +99,44 @@
                    <label class="col-md-4 control-label">Class</label>
                    <div class="col-md-8 inputGroupContainer">
                       <div class="input-group"><span class="input-group-addon">
-                        <i class="fa fa-universal-access" aria-hidden="true"></i></span>
-                        <input id="class" name="class" placeholder="Class Name" class="form-control" required="true" value="{{ $old_information->class }}" type="text"></div>
+                        <i class="fa fa-universal-access" aria-hidden="true"></i></span> <?php $cl=DB::table('academic_classes')->where('id',$old_information->class_name)->first(); ?>
+                        {{-- <input id="class" name="class" placeholder="Class Name" class="form-control" required="true" value="{{ $cl->class_name }}" type="text"></div> --}}
+                        <select class="form-control" name="class_name">
+                          <option class="form-control" value="{{ $cl->id }}">{{ $cl->class_name }}</option>
+                          @foreach ($classes as $key => $class)
+                            <option value="{{ $class->id }}">{{ $class->class_name }}</option>
+                          @endforeach
+                        </select>
+                   </div>
                    </div>
                 </div>
                 <div class="form-group">
                    <label class="col-md-4 control-label">Group</label>
                    <div class="col-md-8 inputGroupContainer">
                       <div class="input-group"><span class="input-group-addon">
-                        <i class="fa fa-user-plus" aria-hidden="true"></i></span>
-                        <input id="group" name="group" placeholder="Class Name" class="form-control" required="true" value="{{ $old_information->group }}" type="text"></div>
+                        <i class="fa fa-user-plus" aria-hidden="true"></i></span></span> <?php $grp=DB::table('academic_groups')->where('id',$old_information->group)->first(); ?>
+                        <select class="form-control" name="group">
+                          <option class="form-control"value="{{ $grp->id }}">{{ $grp->group_name }}</option>
+                          @foreach ($groups as $key => $group)
+                            <option value="{{ $group->id }}">{{ $group->group_name }}</option>
+                          @endforeach
+                        </select>
+                        </div>
+                      </div>
+                </div>
+                <div class="form-group">
+                   <label class="col-md-4 control-label">Section</label>
+                   <div class="col-md-8 inputGroupContainer">
+                      <div class="input-group"><span class="input-group-addon">
+                        {{-- <input id="section" name="section" placeholder="Class Rol" class="form-control" required="true" value="{{ $sec->section_name }}" type="text"></div> --}}
+                        <i class="fa fa-star" aria-hidden="true"></i></span> </i></span></span> <?php $sec=DB::table('academic_sections')->where('id',$old_information->section)->first(); ?>
+                        <select class="form-control" name="section">
+                          <option class="form-control"value="{{ $sec->id }}">{{ $sec->section_name }}</option>
+                          @foreach ($sections as $key => $section)
+                            <option value="{{ $section->id }}">{{ $section->section_name }}</option>
+                          @endforeach
+                        </select>
+                   </div>
                    </div>
                 </div>
                 <div class="form-group">
@@ -115,6 +145,14 @@
                       <div class="input-group"><span class="input-group-addon">
                         <i class="fa fa-star" aria-hidden="true"></i></span>
                         <input id="class_roll" name="class_roll" placeholder="Class Rol" class="form-control" required="true" value="{{ $old_information->class_roll }}" type="text"></div>
+                   </div>
+                </div>
+                <div class="form-group">
+                   <label class="col-md-4 control-label">RFID No</label>
+                   <div class="col-md-8 inputGroupContainer">
+                      <div class="input-group"><span class="input-group-addon">
+                        <i class="fa fa-star" aria-hidden="true"></i></span>
+                        <input id="rfid_no" name="rfid_no" placeholder="Class Rol" class="form-control" required="true" value="{{ $old_information->rfid_no }}" type="text"></div>
                    </div>
                 </div>
             </fieldset>
@@ -145,7 +183,7 @@
                   <label class="col-md-4 control-label">Parmanet Address</label>
                   <div class="col-md-8 inputGroupContainer">
                      <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                       <input id="student_parmanent_address" name="student_parmanent_address" placeholder="Enter Parmanent Address" class="form-control" required="true" value="{{ $old_information->student_present_address }}" type="text"></div>
+                       <input id="student_parmanent_address" name="student_parmanent_address" placeholder="Enter Parmanent Address" class="form-control" required="true" value="{{ $old_information->student_parmanent_address }}" type="text"></div>
                   </div>
                </div>
                <div class="form-group">
@@ -160,8 +198,8 @@
                    <label class="col-md-4 control-label">Father Name</label>
                    <div class="col-md-8 inputGroupContainer">
                       <div class="input-group"><span class="input-group-addon">
-                        <i class="glyphicon glyphicon-user"></i></span>
-                        <input id="student_father_name" name="student_father_name" placeholder="Enter Student Father Name" class="form-control" required="true" value="{{ $old_information->student_father_name }}" type="text">
+                        <i class="glyphicon glyphicon-user"></i></span> <?php $gr=DB::table('guardians')->where('std_id',$old_information->id)->first(); ?>
+                        <input id="student_father_name" name="student_father_name" placeholder="Enter Student Father Name" class="form-control" required="true" value="{{ $gr->student_father_name }}" type="text">
                     </div>
                    </div>
                 </div>
@@ -170,7 +208,7 @@
                    <div class="col-md-8 inputGroupContainer">
                       <div class="input-group"><span class="input-group-addon">
                         <i class="glyphicon glyphicon-user"></i></span>
-                        <input id="student_mother_name" name="student_mother_name" placeholder="Enter Student Mother Name" class="form-control" required="true" value="{{ $old_information->student_mother_name }}" type="text">
+                        <input id="student_mother_name" name="student_mother_name" placeholder="Enter Student Mother Name" class="form-control" required="true" value="{{ $gr->student_mother_name }}" type="text">
                     </div>
                    </div>
                 </div>
@@ -178,7 +216,7 @@
                    <label class="col-md-4 control-label">Guardian Phone</label>
                    <div class="col-md-8 inputGroupContainer">
                       <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                        <input id="guardian_phone_no" name="guardian_phone_no" placeholder="Guardian Phone No" class="form-control" required="true" value="{{ $old_information->guardian_phone_no }}" type="text">
+                        <input id="guardian_phone_no" name="guardian_phone_no" placeholder="Guardian Phone No" class="form-control" required="true" value="{{ $gr->guardian_phone_no }}" type="text">
                       </div>
                    </div>
                 </div>
@@ -186,14 +224,14 @@
                    <label class="col-md-4 control-label">Guardian Email</label>
                    <div class="col-md-8 inputGroupContainer">
                       <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                        <input id="guardian_email" name="guardian_email" placeholder="Guardian Email" class="form-control" required="true" value="{{ $old_information->guardian_email }}" type="text"></div>
+                        <input id="guardian_email" name="guardian_email" placeholder="Guardian Email" class="form-control" required="true" value="{{ $gr->guardian_email }}" type="text"></div>
                    </div>
                 </div>
                 <div class="form-group">
                   <label class="col-md-4 control-label">Guardian NID No</label>
                   <div class="col-md-8 inputGroupContainer">
                     <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                      <input id="guardian_nid_no" name="guardian_nid_no" placeholder="Guardian NID No" class="form-control" required="true" value="{{ $old_information->guardian_nid_no }}" type="text">
+                      <input id="guardian_nid_no" name="guardian_nid_no" placeholder="Guardian NID No" class="form-control" required="true" value="{{ $gr->guardian_nid_no }}" type="text">
                     </div>
                   </div>
                 </div>
@@ -201,9 +239,9 @@
             </fieldset>
            </div>
          </div>
+         <button type="submit" class="btn btn-primary">Update</button>
       </form>
     </div>
-    <button type="submit" class="btn btn-primary">Update</button>
   </div>
  </div>
 </div>

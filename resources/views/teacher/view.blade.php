@@ -76,9 +76,9 @@
                     <label>Designation :</label>
                       <select class="form-control" name="teacher_designation">
                         <option value="">-- Select One --</option>
-                        <option value="1">Junior Teacher</option>
-                        <option value="2">Seniour Teacher</option>
-                        <option value="3">Head</option>
+                        <option value="Junior Teacher">Junior Teacher</option>
+                        <option value="Seniour Teacher">Seniour Teacher</option>
+                        <option value="Head">Head</option>
                       </select>
                   </div>
                   <div class="form-group">
@@ -111,50 +111,80 @@
   </div>
 </div>
       <!-- Card Body -->
-<div class="card-body">
-  <div class="panel-body">
-    <table class="table table-bordered" id="teachertable">
-      <thead>
-        <tr>
-          <th >Image</th>
-          <th >Name</th>
-          <th >Phone Number</th>
-          <th >Email</th>
-          <th >Designation</th>
-          <th>Added By</th>
-          <th >Action</th>
-        </tr>
-      </thead>
-      <tbody>
-      @forelse ($teachers as $teacher)
-        <tr>
-          <td> <img class="img-profile rounded-circle" width="40" src="{{ asset('/storage') }}/{{ $teacher->teacher_image }}" alt="Photo Not Found"> </td>
-          {{-- <td>{{ $teacher->teacher_name }}</td> --}}
-          <td>{{ $teacher->teacher_phone_no }}</td>
-          {{-- <td>{{ $teacher->teacher_email_address }}</td> --}}
-          <td>{{ $teacher->teacher_designation }}</td>
-          <td>{{ $teacher->getUserInfo->name }}</td>
-          <td>
-            <div class="btn-group">
-              <a href="" data-toggle="tooltip" data-placement="top" title="View" class="btn btn-info">
-                <i class="fas fa-eye"></i>
-              </a>
-              <a href="{{ route('teacher.edit', $teacher->id) }}" data-toggle="tooltip" data-placement="top" title="Edit" class="btn btn-success">
-                <i class="fas fa-edit" aria-hidden="true"></i>
-              </a>
-              <a href="" data-toggle="tooltip" data-placement="top" title="Delete" class="btn btn-danger">
-                <i class="fa fa-trash" aria-hidden="true"></i>
-              </a>
+      <div class="col-xl-12 col-lg-7">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="card shadow mb-4">
+              <h6 style="    margin: 12px !important" class="m-0 font-weight-bold text-primary ">&nbsp Loging Info</h6>
+              <div class="card-body">
+                <div class="panel-body">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th >SL</th>
+                        <th >Name</th>
+                        <th >email</th>
+                      </tr>
+                    </thead>
+                    @php
+                      $te = 1;
+                    @endphp
+                    <tbody>
+                        @foreach ($user_infos as $user_info)
+                          <tr>
+                            <td>{{ $te++ }}</td>
+                            <td>{{ $user_info->name }}</td>
+                            <td>{{ $user_info->email }}</td>
+                          </tr>
+                        @endforeach
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
-          </td>
-        </tr>
-      @empty
-
-      @endforelse
-      </tbody>
-    </table>
-  </div>
-</div>
+          </div>
+          <div class="col-md-8">
+            <div class="card shadow mb-4">
+              <h6 style="    margin: 12px !important" class="m-0 font-weight-bold text-primary ">&nbsp Details</h6>
+              <div class="card-body">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th >Image</th>
+                      <th >Phone </th>
+                      <th >Designation</th>
+                      <th >Added By</th>
+                      <th >Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach ($teachers as $teacher)
+                      <tr>
+                        <td> <img class="img-profile rounded-circle" width="40" src="{{ asset('/storage') }}/{{ $teacher->teacher_image }}" alt="Photo Not Found"> </td>
+                        <td>{{ $teacher->teacher_phone_no }}</td>
+                        <td>{{ $teacher->teacher_designation }}</td>
+                        <td>{{ $teacher->getUserInfo->name }}</td>
+                        <td>
+                          <div class="btn-group">
+                            {{-- <a href="" data-toggle="tooltip" data-placement="top" title="View" class="btn btn-info">
+                              <i class="fas fa-eye"></i>
+                            </a> --}}
+                            <a href="{{ route('teacher.edit', $teacher->id) }}" data-toggle="tooltip" data-placement="top" title="Edit" class="btn btn-success">
+                              <i class="fas fa-edit" aria-hidden="true"></i>
+                            </a>
+                            <a href="{{ url('teacher-delete/'.$teacher->id) }}" data-toggle="tooltip" data-placement="top" title="Delete" class="btn btn-danger">
+                              <i class="fa fa-trash" aria-hidden="true"></i>
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+                      @endforeach
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
 </div>
 </div>
 @endsection

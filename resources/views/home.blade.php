@@ -5,7 +5,7 @@
       <div class="card shadow mb-4">
         <!-- Card Header - Dropdown -->
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-          <h6 class="m-0 font-weight-bold text-primary fas fa-tachometer-alt fa-2x">&nbsp Dashboard</h6>
+          <h6 class="m-0 font-weight-bold text-primary fas fa-tachometer-alt fa-2x">&nbsp {{ __('Dashboard') }}</h6>
           <div class="dropdown no-arrow">
 
           </div>
@@ -20,7 +20,7 @@
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Present Today</div>
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">{{ __('Present Today') }}</div>
                       {{-- <i class="fa fa-users" aria-hidden="true"></i> --}}
                       <div class="h5 mb-0 font-weight-bold text-gray-800 ">&nbsp 180</div>
                     </div>
@@ -38,7 +38,7 @@
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Absent Today </div>
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">{{ __('Absent Today') }} </div>
                       <div class="h5 mb-0 font-weight-bold text-gray-800">&nbsp 20</div>
                     </div>
                     <div class="col-auto">
@@ -54,7 +54,7 @@
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Total Teacher</div>
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">{{ __('Total Teacher') }}</div>
                       <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
                     </div>
                     <div class="col-auto">
@@ -70,7 +70,7 @@
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">All Student</div>
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">{{ __('All Student') }}</div>
                       {{-- <i class="fa fa-users" aria-hidden="true"></i> --}}
                       <div class="h5 mb-0 font-weight-bold text-gray-800 ">&nbsp 200</div>
                     </div>

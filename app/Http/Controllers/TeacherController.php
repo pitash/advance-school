@@ -6,6 +6,7 @@ use App\Teacher;
 use App\Notifications\TeacherAccountNotification;
 use App\User;
 use Auth;
+use DB;
 use Notification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -17,17 +18,18 @@ class TeacherController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+     public function __construct()
+     {
+         $this->middleware('auth');
+         $this->middleware('checkroleid');
+     }
+
+
     public function index()
     {
-// users
-// teachers
-//       $students = DB::table('manage_students')
-//           ->join('guardians', 'manage_students.id', '=', 'guardians.id')
-//           ->select('manage_students.*', 'guardians.student_father_name')
-//           ->get();
-
-        $teachers = Teacher::all();
-        return view('teacher/view', compact('teachers'));
+      $teachers = Teacher::all();
+      $user_infos = DB::table('users')->where('role_id', '2')->get();
+      return view('teacher/view', compact('teachers','user_infos'));
     }
 
     /**
@@ -48,17 +50,17 @@ class TeacherController extends Controller
      */
     public function store(Request $request)
     {
-      // $request->validate([
-      //   'teacher_name'=> 'required',
-      //   // 'teacher_phone_no'=> 'required|unique:teachers,teacher_phone_no',
-      //   // 'teacher_email_address'=> 'required|unique:teachers,teacher_email_address',
-      //   // 'techer_nid'=> 'required|unique:teachers,techer_nid',
-      //   'teacher_gender'=> 'required',
-      //   'teacher_designation'=> 'required',
-      //   'joining_date'=> 'required',
-      //   'parmanent_address'=> 'required',
-      //   'present_address'=> 'required',
-      // ]);
+      $request->validate([
+        'teacher_name'=> 'required',
+        'teacher_phone_no'=> 'required|unique:teachers,teacher_phone_no',
+        'teacher_email_address'=> 'required|unique:teachers,teacher_email_address',
+        'techer_nid'=> 'required|unique:teachers,techer_nid',
+        'teacher_gender'=> 'required',
+        'teacher_designation'=> 'required',
+        'joining_date'=> 'required',
+        'parmanent_address'=> 'required',
+        'present_address'=> 'required',
+      ]);
 
       $random_pass = str_random(6);
 
@@ -70,10 +72,8 @@ class TeacherController extends Controller
 
       $idFormDB = Teacher::insertGetId([
 
-        // 'teacher_name' => $request->teacher_name,
-        'role_id' => $teacher_info->id,
+        'user_id' => $teacher_info->id,
         'teacher_phone_no' => $request->teacher_phone_no,
-        // 'teacher_email_address' => $request->teacher_email_address,
         'teacher_gender' => $request->teacher_gender,
         'teacher_designation' => $request->teacher_designation,
         'joining_date' => $request->joining_date,
@@ -88,13 +88,12 @@ class TeacherController extends Controller
        Teacher:: find($idFormDB)->update([
          "teacher_image" => $path
        ]);
-       // return redirect()->route('teacher.index')
-       //                 ->withstatus('Teacher Add successfully');
+       // return back();
       }
-      // $teacher_email_address = "pitash@gmail.com";
        Notification::route('mail', $request->teacher_email_address)
             ->notify(new TeacherAccountNotification($random_pass));
-            // return back();
+            return redirect()->route('teacher.index')
+                            ->withstatus('Teacher Add successfully');
     }
 
     /**
@@ -114,6 +113,8 @@ class TeacherController extends Controller
      * @param  \App\Teacher  $teacher
      * @return \Illuminate\Http\Response
      */
+
+     // email
     public function edit($teacher_id)
     {
       $old_information = Teacher::findOrFail($teacher_id);
@@ -145,8 +146,12 @@ class TeacherController extends Controller
      * @param  \App\Teacher  $teacher
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Teacher $teacher)
+    public function destroy($id)
     {
-        //
+      {
+        Teacher::where('id', $id)->delete();
+        return redirect()->route('teacher.index')
+                        ->withstatus('Group Deleted successfully');
+      }
     }
 }

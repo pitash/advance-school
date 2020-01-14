@@ -29,27 +29,24 @@
          <table class="table table-bordered">
            <tr>
              <th>Class Name</th>
-             <th>Added By</th>
              <th>Subject</th>
+             <th>Added By</th>
              <th>Action</th>
            </tr>
            @forelse ($subjects as $subject)
              <tr>
-               <td>Class</td>
+               <td>{{ $subject->class->class_name }}</td>
+               <td>{{ $subject->subject_name }}  </td>
                <td>{{ $subject->getUserInfo->name }}</td>
-               <td>
-
-                   <li>{{ $subject->subject_name  }}</li>
-
-               </td>
                <td>
                  <div class="btn-group">
                    <a href="{{ route('academicsubject.edit', $subject->id) }}" data-toggle="tooltip" data-placement="top" title="Edit" class="btn btn-success">
                      <i class="fas fa-edit" aria-hidden="true"></i>
                    </a>
-                   <a href="" data-toggle="tooltip" data-placement="top" title="Delete" class="btn btn-danger">
+                   <a href="{{ url('academicsubject-delete/'.$subject->id) }}" data-toggle="tooltip" data-placement="top" title="Delete" class="btn btn-danger">
                      <i class="fa fa-trash" aria-hidden="true"></i>
                    </a>
+
                  </div>
                </td>
              </tr>
@@ -72,14 +69,6 @@
             @foreach ($errors->all() as $error)
               <li>{{ $error }}</li>
             @endforeach
-          </div>
-         @endif
-         @if (session('status'))
-          <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('status') }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
           </div>
          @endif
          <form action="" method="post">

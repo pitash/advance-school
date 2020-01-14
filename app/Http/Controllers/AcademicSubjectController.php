@@ -14,10 +14,18 @@ class AcademicSubjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+     public function __construct()
+     {
+         $this->middleware('auth');
+         $this->middleware('checkroleid');
+     }
+
+
     public function index()
     {
+        // $old_information=DB::table('manage_students')->where('id',$student_id)->first();
         $classes = AcademicClass::all();
-        $subjects = AcademicSubject::paginate(3);
+        $subjects = AcademicSubject::paginate(5);
         return view('academic/subject/view', compact('classes','subjects'));
     }
 
@@ -67,9 +75,10 @@ class AcademicSubjectController extends Controller
      * @param  \App\AcademicSubject  $academicSubject
      * @return \Illuminate\Http\Response
      */
-    public function edit(AcademicSubject $academicSubject)
+    public function edit($subject_id)
     {
-        //
+      $old_information = AcademicSubject::findOrFail($subject_id);
+      return view('academic/subject/edit', compact('old_information'));
     }
 
     /**
@@ -79,9 +88,15 @@ class AcademicSubjectController extends Controller
      * @param  \App\AcademicSubject  $academicSubject
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AcademicSubject $academicSubject)
+    public function update(Request $request, $subject_id)
     {
-        //
+      $request->validate([
+        // 'subject_name'=> 'required|unique:academic_subjects,subject_name',
+      ]);
+       AcademicSubject::find($subject_id)->update($request->all());
+
+        return redirect()->route('academicsubject.index')
+                        ->withstatus('Subject updated successfully');
     }
 
     /**
@@ -90,8 +105,10 @@ class AcademicSubjectController extends Controller
      * @param  \App\AcademicSubject  $academicSubject
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AcademicSubject $academicSubject)
+    public function destroy($id)
     {
-        //
+        AcademicSubject::where('id',$id)->delete();
+        return redirect()->route('academicsubject.index')
+                        ->withstatus('Subject Deleted successfully');
     }
 }

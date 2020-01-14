@@ -40,6 +40,7 @@
               @forelse ($sections as $section)
                 <tr>
                   <td>{{$sec++}}</td>
+                  <td>{{ $section->class->class_name }}</td>
                   <td>{{ $section->section_name }}</td>
                   <td>{{ $section->getUserInfo->name }}</td>
                   <td>
@@ -47,7 +48,7 @@
                       <a href="{{ route('academicsection.edit', $section->id) }}" data-toggle="tooltip" data-placement="top" title="Edit" class="btn btn-success">
                         <i class="fas fa-edit" aria-hidden="true"></i>
                       </a>
-                      <a href="" data-toggle="tooltip" data-placement="top" title="Delete" class="btn btn-danger">
+                      <a href="{{ route('academicsection.destroy', $section->id) }}" data-toggle="tooltip" data-placement="top" title="Delete" class="btn btn-danger">
                         <i class="fa fa-trash" aria-hidden="true"></i>
                       </a>
                     </div>
@@ -92,9 +93,9 @@
             <div class="form-group">
               <label>Class Name</label>
               <select class="form-control" name="class_name">
-                {{-- @foreach ($classes as $key => $class)
+                @foreach ($classes as $key => $class)
                   <option value="{{ $class->id }}">{{ $class->class_name }}</option>
-                @endforeach --}}
+                @endforeach
               </select>
             </div>
              <div class="form-group">

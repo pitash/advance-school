@@ -46,7 +46,7 @@
                       <a href="{{ route('academicgroup.edit', $group->id) }}" data-toggle="tooltip" data-placement="top" title="Edit" class="btn btn-success">
                         <i class="fas fa-edit" aria-hidden="true"></i>
                       </a>
-                      <a href="" data-toggle="tooltip" data-placement="top" title="Delete" class="btn btn-danger">
+                      <a href="{{ url('academicgroup/delete') }}/{{ $group->id }}" data-toggle="tooltip" data-placement="top" title="Delete" class="btn btn-danger">
                         <i class="fa fa-trash" aria-hidden="true"></i>
                       </a>
                     </div>

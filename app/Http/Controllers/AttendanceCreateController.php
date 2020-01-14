@@ -14,7 +14,7 @@ class AttendanceCreateController extends Controller
      */
     public function index()
     {
-        echo "crete";
+        return view('attendance.create');
     }
 
     /**

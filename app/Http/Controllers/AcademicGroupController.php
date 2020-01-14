@@ -14,6 +14,12 @@ class AcademicGroupController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+     public function __construct()
+     {
+         $this->middleware('auth');
+         $this->middleware('checkroleid');
+     }
+
     public function index()
     {
 
@@ -99,8 +105,12 @@ class AcademicGroupController extends Controller
      * @param  \App\AcademicGroup  $academicGroup
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AcademicGroup $academicGroup)
+    public function destroy($group_id)
     {
-        //
+      // AcademicGroup::where('id', "=", $group_id)->delete();
+      // return back();
+      // return redirect()->route('academicgroup.index')
+      //                 ->withstatus('Group updated successfully');
+      echo "string";
     }
 }

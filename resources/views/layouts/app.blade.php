@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
+{{-- lang="{{ curentlocale() }}" --}}
 <head>
 
   <meta charset="utf-8">
@@ -11,7 +11,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>{{ config('app.name', 'Laravel') }}</title>
+  <title>{{ config('app.name', 'SAP_School') }}</title>
 
   <!-- Custom fonts for this template-->
   <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -35,8 +35,9 @@
       <a style="background-color: #20B2AA"; class="sidebar-brand d-flex align-items-center justify-content-center" href="">
         <div class="sidebar-brand-icon rotate-n-15">
         </div>
-        <div class="sidebar-brand-text mx-3">School Name</div>
+        <div class="sidebar-brand-text mx-3">SAP School</div>
       </a>
+      @auth
 
       <!-- Divider -->
       <hr class="sidebar-divider my-0">
@@ -45,25 +46,25 @@
       <li class="nav-item active">
         <a class="nav-link" href="{{ url('/dashboard') }}">
           <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Dashboard</span></a>
+          <span>{{ __('Dashboard') }}</span></a>
       </li>
       <hr class="sidebar-divider">
       <li class="nav-item active">
         <a class="nav-link" href="{{ route('managestudent.index') }}">
           {{-- <i class="fas fa-spinner fa-pulse" aria-hidden="true"></i> --}}
           <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
-          <span>Manage Student</span></a>
+          <span>{{ __('Manage Student') }}</span></a>
       </li>
       <hr class="sidebar-divider fa-ul">
       <li class="nav-item active">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-sync fa-spin"></i>
-          <span>Attendance</span>
+          <span>{{ __('Attendance') }}</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item fa fa-retweet" href="{{ route('attendancecrete.index') }}">&nbsp Attendance Create</a>
-            <a class="collapse-item fas fa-eye" href="{{ route('attendanceshow.index') }}">&nbsp Attendance Show</a>
+            <a class="collapse-item fa fa-retweet" href="{{ route('student-attendance') }}">&nbsp {{ __('Attendance Create') }}</a>
+            {{-- <a class="collapse-item fas fa-eye" href="">&nbsp Attendance Show</a> --}}
           </div>
         </div>
       </li>
@@ -71,26 +72,26 @@
       <li class="nav-item active ">
         <a class="nav-link" href="{{ route('teacher.index') }}">
           <i class="fas fa-spinner fa-spin"></i>
-          <span>Add Teacher</span></a>
+          <span>{{ __('Add Teacher') }}</span></a>
       </li>
       <hr class="sidebar-divider">
       <li class="nav-item active">
         <a class="nav-link" href="{{ route('guardian.index') }}">
           <i class="fas fa-circle-notch fa-spin"></i>
-          <span>Manage Guardian</span></a>
+          <span>{{ __('Manage Guardian') }}</span></a>
       </li>
       <hr class="sidebar-divider">
       <li class="nav-item active">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
           <i class="fas fa-stroopwafel fa-spin"></i>
-          <span>Academic</span>
+          <span>{{ __('Academic') }}</span>
         </a>
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item fa fa-street-view" href="{{ route('academicclass.index') }}">&nbsp Class</a>
-            <a class="collapse-item fa fa-random" href="{{ route('academicsubject.index') }}">&nbsp Subject</a>
-            <a class="collapse-item fa fa-tag" href="{{ route('academicsection.index') }}">&nbsp Section</a>
-            <a class="collapse-item fa fa-sitemap" href="{{ route('academicgroup.index') }}">&nbsp Group</a>
+            <a class="collapse-item fa fa-street-view" href="{{ route('academicclass.index') }}">&nbsp {{ __('Class') }}</a>
+            <a class="collapse-item fa fa-random" href="{{ route('academicsubject.index') }}">&nbsp {{ __('Subject') }}</a>
+            <a class="collapse-item fa fa-tag" href="{{ route('academicsection.index') }}">&nbsp {{ __('Section') }}</a>
+            <a class="collapse-item fa fa-sitemap" href="{{ route('academicgroup.index') }}">&nbsp {{ __('Group') }}</a>
           </div>
         </div>
       </li>
@@ -98,12 +99,12 @@
       <li class="nav-item active">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
           <i class="fas fa-cog fa-spin"></i>
-          <span>Setting's</span>
+          <span>{{ __('Setting') }}</span>
         </a>
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item fa fa-cogs" href="utilities-color.html">&nbsp General Setting's</a>
-            <a class="collapse-item fa fa-flag-checkered" href="utilities-color.html">&nbsp Language Setting's</a>
+            {{-- <a class="collapse-item fa fa-cogs" href="utilities-color.html">&nbsp General Setting's</a> --}}
+            <a class="collapse-item fa fa-flag-checkered" href="{{ url('setting/language') }}">&nbsp {{ __('Language Setting') }}</a>
             {{-- <a class="collapse-item fa fa-database" href="utilities-color.html">&nbsp Backup Database</a> --}}
           </div>
         </div>
@@ -139,7 +140,7 @@
           <ul class="navbar-nav ml-auto">
             <!-- Nav Item - Search Dropdown (Visible Only XS) -->
             <!-- Nav Item - Alerts -->
-            <li class="nav-item dropdown no-arrow mx-1">
+            {{-- <li class="nav-item dropdown no-arrow mx-1">
               <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-bell fa-fw"></i>
                 <!-- Counter - Alerts -->
@@ -163,10 +164,10 @@
                 </a>
                 <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
               </div>
-            </li>
+            </li> --}}
 
             <!-- Nav Item - Messages -->
-            <li class="nav-item dropdown no-arrow mx-1">
+            {{-- <li class="nav-item dropdown no-arrow mx-1">
               <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-envelope fa-fw"></i>
                 <!-- Counter - Messages -->
@@ -189,7 +190,7 @@
                 </a>
                 <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
               </div>
-            </li>
+            </li> --}}
 
             <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -201,9 +202,11 @@
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Profile
+                  @auth
+                    {{ Auth::user()->name }}
+                  @endauth
                 </a>
                 <a class="dropdown-item" href="#">
                   <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -232,7 +235,7 @@
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2019</span>
+            <span>{{ __('Copyright@ DIU Defence 2019') }}</span>
           </div>
         </div>
       </footer>
@@ -265,6 +268,7 @@
           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
               @csrf
           </form>
+          @endauth
         </div>
       </div>
     </div>

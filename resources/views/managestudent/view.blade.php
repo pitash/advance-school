@@ -4,7 +4,7 @@
     <li><a href="{{ url('dashboard') }}">
       <em class="fa fa-home"></em>
     </a>/</li>
-    <li class="active">&nbsp Manage Student </li>
+    <li class="active">&nbsp {{ __('Manage Student') }}</li>
   </ol>
 @endsection
 @section('content')
@@ -12,7 +12,24 @@
   <div class="card shadow mb-4">
 <!-- Card Header - Dropdown -->
     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-    <h6 class="m-0 font-weight-bold text-primary fa fa-users fa-2x">&nbsp Student List</h6>
+    <h6 class="m-0 font-weight-bold text-primary fa fa-users fa-2x">&nbsp {{ __('Student List') }}</h6>
+        @if (session('status'))
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('status') }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+        @endif
+        @if ($errors->any())
+          <div class="alert alert-danger">
+            <ul>
+              @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+              @endforeach
+            </ul>
+          </div>
+        @endif
       <div class="dropdown no-arrow">
         <div class="panel-heading">
         <a style="color:#fff;"class="btn btn-success pull-right"  data-toggle="modal" data-target="#addExpenseModal">Add New Student <span class="fa fa-plus-circle"></span> </a>
@@ -57,11 +74,11 @@
                       <select class="form-control" name="blood_group">
                         <option value="">-- Select One --</option>
                         <option value="1">A(+)</option>
-                        <option value="1">A(-)</option>
-                        <option value="1">B(+)</option>
-                        <option value="1">B(+)</option>
-                        <option value="1">O(+)</option>
-                        <option value="1">O(-)</option>
+                        <option value="2">A(-)</option>
+                        <option value="3">B(+)</option>
+                        <option value="4">B(+)</option>
+                        <option value="5">O(+)</option>
+                        <option value="6">O(-)</option>
                       </select>
                     </div>
                     <div class="form-group">
@@ -82,19 +99,29 @@
                     </div>
                     <div class="form-group">
                       <label>Group :</label>
-                      <input type="text" class="form-control" placeholder="Enter Phone No" name="group">
+                      {{-- <input type="text" class="form-control" placeholder="Enter Phone No" name="group"> --}}
+                      <select class="form-control" name="group">
+                        @foreach ($groups as $key => $group)
+                          <option value="{{ $group->id }}">{{ $group->group_name }}</option>
+                        @endforeach
+                      </select>
                     </div>
                     <div class="form-group">
                       <label>Section :</label>
-                      <input type="text" class="form-control" placeholder="Enter Phone No" name="section">
+                      {{-- <input type="text" class="form-control" placeholder="Enter Phone No" name="section"> --}}
+                      <select class="form-control" name="section">
+                        @foreach ($sections as $key => $section)
+                          <option value="{{ $section->id }}">{{ $section->section_name }}</option>
+                        @endforeach
+                      </select>
                     </div>
                     <div class="form-group">
                       <label>Class Roll :</label>
-                      <input type="text" class="form-control" placeholder="Enter Phone No" name="class_roll">
+                      <input type="text" class="form-control" placeholder="Enter Class Roll" name="class_roll">
                     </div>
                     <div class="form-group">
                       <label>RFID No :</label>
-                      <input type="text" class="form-control" placeholder="Enter Phone No" name="rfid_no">
+                      <input type="text" class="form-control" placeholder="Enter RFID No" name="rfid_no">
                     </div>
                     <div class="form-group">
                       <label>Religion :</label>
@@ -156,12 +183,12 @@
               <th >SL</th>
               <th >Photo</th>
               <th >Name</th>
-              <th >Phone No</th>
+              <th >Phone</th>
               <th >Class</th>
               <th >Section</th>
               <th >Roll</th>
-              <th >RFID No</th>
-              <th >Guardian Name</th>
+              <th >RFID</th>
+              <th >Guardian</th>
               <th >Action</th>
             </tr>
           </thead>
@@ -182,13 +209,13 @@
               <td>{{ $student->student_father_name }}</td>
               <td>
                 <div class="btn-group">
-                  <a href="" data-toggle="tooltip" data-placement="top" title="View" class="btn btn-info">
+                  {{-- <a href="" data-toggle="tooltip" data-placement="top" title="View" class="btn btn-info">
                     <i class="fas fa-eye"></i>
-                  </a>
+                  </a> --}}
                   <a href="{{ route('managestudent.edit', $student->id) }}" data-toggle="tooltip" data-placement="top" title="Edit" class="btn btn-success">
                     <i class="fas fa-edit" aria-hidden="true"></i>
                   </a>
-                  <a href="" data-toggle="tooltip" data-placement="top" title="Delete" class="btn btn-danger">
+                  <a href="{{ url('managestudent-delete/'.$student->id) }}" data-toggle="tooltip" data-placement="top" title="Delete" class="btn btn-danger">
                     <i class="fa fa-trash" aria-hidden="true"></i>
                   </a>
                 </div>

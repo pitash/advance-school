@@ -39,8 +39,8 @@
                   <td>{{$a++}}</td>
                   <td>{{ $class->class_name }}</td>
                   {{-- <td>{{ App\User::find($class->added_by)->name }}</td> --}}
-                  <td>{{ print_r($class->getUserInfo) }}</td>
-                  {{-- <td>{{ $class->getUs erInfo->name }}</td> --}}
+                  {{-- <td>{{ print_r($class->getUserInfo) }}</td> --}}
+                  <td>{{ $class->getUserInfo->name }}</td>
                   <td>
                     <div class="btn-group">
                       <a href="{{ route('academicclass.edit', $class->id) }}" data-toggle="tooltip" data-placement="top" title="Edit" class="btn btn-success">
@@ -95,7 +95,7 @@
             </div>
             <div class="modal-footer">
               <button type="submit" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-success">Add Clss</button>
+              <button type="submit" class="btn btn-success">Add Class</button>
             </div>
           </form>
         </div>
